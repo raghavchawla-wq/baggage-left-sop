@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>Baggage Left SOP DT</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#64748b;--border:#dbe2ea;--primary:#2563eb;--soft:#eef4ff;--success:#ecfdf3;--successborder:#86efac;--warn:#fff7ed;--warnborder:#fdba74;--danger:#fef2f2;--dangerborder:#fca5a5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:16px}
+header{background:#111827;color:#fff;padding:15px 16px;position:sticky;top:0;z-index:10}.head{max-width:980px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.title{font-weight:800;font-size:20px}main{max-width:980px;margin:auto;padding:16px 12px 34px}.crumb{color:var(--muted);font-size:14px;margin:4px 0 13px}.hero,.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
+h1{font-size:30px;margin:0 0 6px}.sub{color:var(--muted);line-height:1.45}.progress{height:7px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin-top:18px}.bar{height:100%;background:var(--primary);width:20%;transition:width .2s}
+.step{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--muted);margin-bottom:7px}h2{font-size:25px;margin:0 0 9px}.hint{color:var(--muted);line-height:1.5;margin-bottom:18px}
+.action-box{line-height:1.6}.action-box ul{margin:8px 0;padding-left:22px}.comm-box{background:var(--success);border:1px solid var(--successborder);border-radius:12px;padding:16px;margin:17px 0;position:relative}.comm-text{padding-right:105px;line-height:1.55}.copy-btn{position:absolute;right:12px;top:12px;min-height:38px;padding:8px 11px;background:#fff;color:#111827;border:1px solid var(--primary);font-size:14px}
+.badge{display:inline-block;padding:5px 9px;border-radius:7px;font-size:12px;font-weight:800;margin:5px 0 10px}.mandatory{background:#fee2e2;color:#991b1b}.warning{background:var(--warn);border:1px solid var(--warnborder);border-radius:12px;padding:14px;margin:15px 0}.danger{background:var(--danger);border-color:var(--dangerborder)}
+.disp{background:#f8fafc;border-left:4px solid var(--primary);padding:14px;border-radius:7px;line-height:1.6}.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px;margin-top:16px}.choices button{min-height:58px;text-align:left;white-space:normal}
+button{appearance:none;border:1px solid var(--border);border-radius:11px;padding:13px 15px;font-size:16px;font-weight:700;cursor:pointer;background:#fff;color:var(--text)}button:hover{border-color:var(--primary)}button.primary{background:var(--primary);color:#fff;border-color:var(--primary)}button.secondary{background:#f1f5f9}.nav{display:flex;gap:10px}.nav button{flex:1}
+#editor{display:none}.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;font-weight:800;color:#475569}.field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid var(--border);border-radius:9px;font:inherit;background:#fff}.field textarea{min-height:100px;resize:vertical}.option-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin:8px 0}.small{font-size:13px;color:var(--muted)}.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+@media(max-width:620px){.head{align-items:flex-start}.title{font-size:17px}.headBtns button{font-size:13px;padding:8px}main{padding:10px 9px 30px}.hero,.card{padding:16px;border-radius:14px}h1{font-size:25px}h2{font-size:22px}.choices{grid-template-columns:1fr}.editor-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.comm-text{padding-right:0;padding-top:43px}.copy-btn{right:10px;top:10px}.option-row{grid-template-columns:1fr}.nav{position:sticky;bottom:0;background:var(--bg);padding:8px 0;z-index:4}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="title">Baggage Left SOP DT</div></div></header>
+<main>
+<div class="crumb" id="breadcrumb">SOP Library &gt; Baggage Left</div>
+<section class="hero"><h1>🧳 Baggage Left SOP DT</h1><div class="sub">Guided decision tree for agents. Choose the situation and use the ready-to-copy customer communication when applicable.</div><div class="progress"><div id="progress" class="bar"></div></div></section>
+
+<section id="viewer" class="card"></section>
+
+<div class="nav"><button id="back" class="secondary">← Back</button><button id="restart" class="secondary">↻ Restart SOP</button></div>
+</main>
+
+<script>
+const workflow = {"start": {"title": "Step 1: Verify Contact History", "hint": "Acknowledge the customer's concern and ask for time to check the details.", "agent": "Check interaction history: Is this the customer's first contact regarding this issue, or a reopened/repeat chat?", "comm": "", "warning": "", "reason": "", "subreason": "", "options": [["First-Time Contact", "first_timer"], ["Second-Time Contact / Reopened Chat (Unable to connect / return item)", "second_timer_probe"]]}, "first_timer": {"title": "First-Time Contact Resolution", "hint": "Follow the first-time contact resolution.", "agent": "Share Captain contact details with the customer.\nInstruct customer to connect with Captain regarding the left item.\nObtain customer acknowledgement on chat. If non-responsive on chat, attempt outbound call to get acknowledgement.", "comm": "I have shared the Captain's contact details with you. Please reach out directly to the Captain regarding your left item. Let me know once you have noted the details so I can assist further.", "warning": "", "reason": "Baggage left", "subreason": "CP details_shared", "options": []}, "second_timer_probe": {"title": "Step 2: Probing & Captain Contact", "hint": "Customer says the Captain is unable to connect / is not returning the item.", "agent": "Probe customer regarding item details if not previously specified (e.g., \"What exact item was left?\").\nInform customer we are attempting to connect with the Captain on their behalf and ask for time.\nCall the Captain twice (2 attempts required).", "comm": "", "warning": "MANDATORY CHECK: 2 Captain contact attempts are required.", "reason": "", "subreason": "", "options": [["Captain Connected", "captain_connected"], ["Captain Not Responding (After 2 attempts)", "captain_unreachable"]]}, "captain_connected": {"title": "Step 3: Captain Item Status", "hint": "Ask Captain to check the vehicle for the exact item mentioned by the customer.", "agent": "Ask Captain to check whether they found the exact item mentioned by the customer.", "comm": "", "warning": "", "reason": "", "subreason": "", "options": [["Captain HAS the item", "captain_has_item"], ["Captain DOES NOT have the item", "captain_no_item"]]}, "captain_has_item": {"title": "Resolution: Item Available", "hint": "Coordinate the handover between the customer and Captain.", "agent": "Inform Captain that customer details were shared; instruct Captain to hand over the item.\nObtain customer acknowledgement on chat (or via call if customer is not responding on chat).", "comm": "Thank you for staying connected. The Captain has confirmed that your item is available in the vehicle. Please connect directly with the Captain using the provided details to coordinate retrieval.", "warning": "", "reason": "Baggage Left", "subreason": "CP Having Item_Cordination done", "options": []}, "captain_no_item": {"title": "Resolution: Item Not Found", "hint": "Inform the customer about the Captain's confirmation.", "agent": "Inform the customer that we connected with the Captain and the Captain could not find the exact item in the vehicle.\nObtain customer acknowledgement on chat (or via call if customer is not responding on chat).", "comm": "We have connected with the Captain, but unfortunately, they were unable to locate your [insert exact item] in the vehicle.", "warning": "", "reason": "Baggage Left", "subreason": "CP Not having item_Information provided", "options": []}, "captain_unreachable": {"title": "Escalation: Captain Not Responding", "hint": "Do NOT resolve this case.", "agent": "Inform the customer about the attempts made and that the Captain may be busy doing another ride.\nInform the customer that we will try connecting with the Captain again from our end and are moving the concern to a dedicated team for follow-ups.\nAsk the customer to also try connecting with the Captain from their end.\nObtain customer acknowledgement on chat. If non-responsive on chat, attempt calling the customer prior to transferring.\nTransfer chat to \"baggage left l2\" after acknowledgement.", "comm": "We made multiple attempts to connect with the Captain, but they are currently unavailable—likely on another ride. We are escalating your concern to a dedicated team to follow up continuously. Meanwhile, please try reaching out to the Captain from your end as well. Our team will keep you updated.", "warning": "DO NOT RESOLVE CASE. Move the chat to “baggage left l2” after customer acknowledgement.", "reason": "Baggage Left", "subreason": "CP not connected - moved to L2", "options": []}};
+let current="start", history=[];
+
+const $=id=>document.getElementById(id);
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function render(){
+ const s=workflow[current], viewer=$("viewer");
+ const pct=Math.min(100,15+history.length*18); $("progress").style.width=pct+"%";
+ $("breadcrumb").innerHTML="SOP Library &gt; Baggage Left &gt; "+esc(s.title);
+ let h='<div class="step">Guided Step '+(history.length+1)+'</div><h2>'+esc(s.title)+'</h2><div class="hint">'+esc(s.hint)+'</div>';
+ if(s.agent) h+='<div class="action-box"><b>Agent Actions:</b><ul>'+s.agent.split("\\n").filter(Boolean).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>';
+ if(s.comm) h+='<div class="comm-box"><button class="copy-btn" data-copy="'+esc(s.comm)+'">Copy Text</button><div class="label"><b>Customer Communication:</b></div><div class="comm-text">'+esc(s.comm)+'</div></div>';
+ if(s.warning) h+='<div class="warning danger"><span class="badge mandatory">MANDATORY / IMPORTANT</span><div>'+esc(s.warning)+'</div></div>';
+ if(s.reason||s.subreason) h+='<div class="disp"><b>FINAL DISPOSITION</b><br>Reason: '+esc(s.reason)+'<br>Sub Reason: '+esc(s.subreason)+'</div>';
+ if(s.options.length){h+='<div style="margin-top:18px"><b>Select what happened:</b></div><div class="choices">'+s.options.map(o=>'<button data-next="'+esc(o[1])+'">'+esc(o[0])+'</button>').join("")+'</div>'}
+ viewer.innerHTML=h;
+ viewer.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>{history.push(current);current=b.dataset.next;render()}));
+ viewer.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>copyMobile(b.dataset.copy,b)));
+ $("back").style.visibility=history.length?"visible":"hidden";
+}
+async function copyMobile(text,btn){
+ try{
+   if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(text);doneCopy(btn);return}
+ }catch(e){}
+ const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.left="-9999px";document.body.appendChild(ta);ta.focus();ta.select();
+ let ok=false;try{ok=document.execCommand("copy")}catch(e){}
+ document.body.removeChild(ta);
+ if(ok)doneCopy(btn);else{btn.textContent="Tap & hold to copy";setTimeout(()=>btn.textContent="Copy Text",2200)}
+}
+function doneCopy(btn){const old=btn.textContent;btn.textContent="✓ Copied";setTimeout(()=>btn.textContent=old,1800)}
+
+$("back").addEventListener("click",()=>{if(history.length){current=history.pop();render()}});
+$("restart").addEventListener("click",()=>{current="start";history=[];render()});
+
+
+render();
+</script>
+</body>
+</html>
